@@ -1,0 +1,17 @@
+[package]
+name = "twin_b5"
+version = "1.0.0"
+edition = "2021"
+
+[[bin]]
+name = "twin_b5"
+path = "src/main.rs"
+
+# Codegen settings, not algorithm: fat LTO and one codegen unit let the small hot
+# helpers (apply, in_set, the dr.rs bit tests) inline across the module boundary,
+# and abort-on-panic keeps the unwinding tables out of the hot loops.
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
